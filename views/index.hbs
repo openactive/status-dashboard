@@ -32,10 +32,8 @@
     <tbody>
     {{#each datasets}}
       <tr>
-        <td>
-          {{#if logoUrl}}
-          <img src="{{logoUrl}}" class="d-block" alt="{{name}}" style="max-width: 100px; max-height: 100px;" onerror="this.classList.remove('d-block'); this.classList.add('d-none');" />
-          {{/if}}
+        <td class="text-center">
+          <img src="{{#if logoUrl}}{{logoUrl}}{{else}}/images/openactive-placeholder-icon-64x64.png{{/if}}" alt="{{name}}" style="max-width: 100px; max-height: 100px;" onerror="this.onerror=null;this.src='/images/openactive-placeholder-icon-64x64.png';" />
         </td>
         <td>
           <a name="{{csPublisherId}}"></a>
