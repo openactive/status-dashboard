@@ -1,0 +1,32 @@
+{
+  "name": "status-dashboard",
+  "version": "0.0.0",
+  "scripts": {
+    "start": "node ./bin/www.js",
+    "start-dev": "nodemon"
+  },
+  "dependencies": {
+    "@octokit/rest": "^20.0.2",
+    "@openactive/dataset-utils": "^2.0.1",
+    "axios": "^1.6.8",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "dotenv": "^16.4.5",
+    "express": "~4.16.1",
+    "hbs": "^4.1.1",
+    "http-errors": "~1.6.3",
+    "morgan": "~1.9.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  },
+  "nodemonConfig": {
+    "exec": "DEBUG=status-dashboard:* npm run start",
+    "watch": [
+      "views/*",
+      "routes/*",
+      "public/*"
+    ],
+    "ignore": []
+  }
+}

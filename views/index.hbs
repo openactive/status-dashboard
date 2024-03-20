@@ -1,0 +1,79 @@
+<header class="jumbotron">
+  <div class="container">
+    <h1 class="">OpenActive Opportunity Data Dashboard</h1>
+    <p>This dashboard lists all of the datasets and APIs published as part of the OpenActive initiative.</p>
+    <p>From these feeds, you can harvest data about sporting and physical activities from across the UK.</p>
+    <h4>Notes:</h4>
+    <ul><li>The feeds listed here are those included in the <a href="https://openactive.io/data-catalogs/">OpenActive data catalog</a>.</li>
+    <li>This page is currently being reviewed and the format may change over coming months.</li>
+    <li>Feeds with known issues and missing metadata are listed at the bottom of the page.</li>
+    <li>There is a known issue in some of the 'Issues' counts, based on variations in the provision of 'discussionurl's.</li></ul>
+    <p><a href="/about">Read more about opportunity data.</a></p>
+    <p><a href="https://slack.openactive.io/" target="_blank">Join us on Slack if you have any queries or feedback about this page.</a></p>
+  </div>
+</header>
+
+
+<section class="container">
+  <p>Last updated: {{refreshTimestamp}}</p>
+  {{#each statusData}}
+  <h2>{{name}}</h2>
+  <p>{{description}}</p>
+  <table class="table table-hover datasets-table">
+    <thead>
+    <tr>
+      <th scope="col" class="sorter-false">Logo</th>
+      <th scope="col" style="width: 100%;">Provider</th>
+      <th scope="col">Feed status</th>
+      <th scope="col">Issues</th>
+      <th scope="col" class="sorter-false">License</th>
+    </tr>
+    </thead>
+    <tbody>
+    {{#each datasets}}
+      <tr>
+        <td>
+          {{#if logoUrl}}
+          <img src="{{logoUrl}}" class="d-block" alt="{{name}}" style="max-width: 100px; max-height: 100px;" onerror="this.classList.remove('d-block'); this.classList.add('d-none');" />
+          {{/if}}
+        </td>
+        <td>
+          <a name="{{csPublisherId}}"></a>
+          <a href="{{url}}">{{name}}</a>
+        </td>
+        <td>
+          <table style="width: 100%;">
+            {{#each feeds}}
+            <tr>
+              <td><a href="{{url}}">{{name}}</a></td>
+              <td style="width: 40px;"><span title="{{error}}">{{#if status}}{{status}}{{else}}<span title="Checking feed...">⏳</span>{{/if}}</span></td>
+            </tr>
+            {{/each}}
+          </table>
+        </td>
+        <td>
+          <a href="{{discussionUrl}}" title="{{issueBoardError}}">{{#if issueCount includeZero=true}}{{issueCount}}{{else}}<span title="Refreshing count...">⏳</span>{{/if}}</a>
+        </td>
+        <td>{{#licenseSnippet license }}{{/licenseSnippet}}</td>
+      </tr>
+      <tr style="display:none" class="tablesorter-childRow" data-cs-publisher-id="{{csPublisherId}}">
+        <td colspan="5"></td>
+      </tr>
+    {{/each}}
+    </tbody>
+  </table>
+  {{else}}
+    <div>Refreshing data, please wait ...</div>
+    <script>
+      setTimeout(function() {
+        window.location.reload();
+      }, 5000);
+    </script>
+  {{/each}}
+</section>
+
+<script>
+{{#if error}}
+  console.warn("Status source fetch: {{error}}");
+{{/if}}
+</script>

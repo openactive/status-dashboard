@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>OpenActive API Dashboard</title>
+  <meta charset="utf-8">
+  <link href="images/openactive-badge-large-2_1.png" rel="shortcut icon" type="image/x-icon">
+  <link href="images/openactive-badge-large-2.png" rel="apple-touch-icon">
+
+  <link rel="stylesheet" media="screen" href="https://fonts.googleapis.com/css?family=Montserrat:500,700">
+  <link rel="stylesheet" media="screen" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700">
+
+  <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
+  <link href="css/theme.bootstrap_4.css" rel="stylesheet" type="text/css">
+  <link href="css/oa-dashboard.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+<nav class="navbar navbar-expand-md navbar-light container">
+  <figure id="logo" class="g-item logo" role="group">
+    <a href="/">
+      <img src="images/oa-logo.svg">
+    </a>
+  </figure>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item first-item">
+        <a class="nav-link" href="/about">About</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="https://www.openactive.io/">Open your data</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div id="page-wrapper">
+<main>
+  {{{body}}}
+</main>
+
+<footer>
+  <p>Stewarded by the <a href="http://theodi.org/" class="footer-link-2">Open Data Institute</a> and <a href="https://www.sportengland.org/" class="footer-link-2">Sport England</a>.</p>
+  <p>
+  <img src="images/odi-logo-80px.svg" class="odi-logo">
+  <img src="images/sport_england.svg" class="odi-logo">
+  </p>
+  <p><a href="https://www.openactive.io/privacy-policy.html" class="">Privacy and Cookie Policy</a></p>
+</footer>
+</div>
+
+<script src="js/jquery-3.2.1.min.js"></script>
+<script src="js/bootstrap.bundle.min.js"></script>
+<script src="js/jquery.tablesorter.combined.js"></script>
+<script src="js/oa-api-dashboard.js"></script>
+</body>
+</html>
