@@ -15,8 +15,8 @@ const refreshTimestamp = new Date().toUTCString();
 const datasetCatalogs = [];
 
 function renderLegendMissingName(name, url) {
-// If a Legend provider that's missing data, extract "hcandl" from the Legend URL e.g. "https://hcandl-openactive.legendonlineservices.co.uk/openactive/";
-if (name === ' Sessions and Facilities') {  
+  // If a Legend provider that's missing data, extract "hcandl" from the Legend URL e.g. "https://hcandl-openactive.legendonlineservices.co.uk/openactive/";
+  if (name === ' Sessions and Facilities') {
     // Use a regex pattern to extract the desired part
     const regex = /https:\/\/(.*?)-openactive/;
     const match = url.match(regex);
@@ -73,37 +73,52 @@ if (name === ' Sessions and Facilities') {
 var router = express.Router();
 
 /* GET home page. */
-router.get('/', async function(req, res, next) {
+router.get('/', async function (req, res, next) {
   const statusData = datasetCatalogs.map(catalog => ({
     name: catalog.catalogMetadata?.name,
     url: catalog.catalogMetadata?.url,
     description: catalog.catalogMetadata?.description,
-    datasets: catalog.datasets?.map(dataset => ({
-      csPublisherId: dataset['@id'],
-      name: dataset.publisher?.name || renderLegendMissingName(dataset.name, dataset.url) || 'Unnamed Dataset',
-      url: dataset.url,
-      logoUrl: dataset.publisher?.logo?.url,
-      license: dataset.license,
-      issueCount: dataset.issueCount,
-      issueBoardError: dataset.issueBoardError,
-      discussionUrl: dataset.discussionUrl,
-      feedCount: dataset.distribution?.length || 0,
-      feeds: dataset.distribution?.map(feed => ({
-        name: feed.name ?? 'Unnamed Feed',
-        url: feed.contentUrl,
-        status: feed.status,
-        error: feed.error,
-      }))
-    })).sort((a, b) => a.name.localeCompare(b.name)),
+    datasets: [].concat(
+      // List datasets in alphabetical order
+      catalog.datasets.map(dataset => ({
+        csPublisherId: dataset['@id'],
+        name: dataset.publisher?.name || renderLegendMissingName(dataset.name, dataset.url) || 'Unnamed Dataset',
+        url: dataset.url,
+        logoUrl: dataset.publisher?.logo?.url,
+        license: dataset.license,
+        issueCount: dataset.issueCount,
+        issueBoardError: dataset.issueBoardError,
+        discussionUrl: dataset.discussionUrl,
+        feeds: dataset.distribution?.map(feed => ({
+          name: feed.name ?? 'Unnamed Feed',
+          url: feed.contentUrl,
+          status: feed.status,
+          error: feed.error,
+        }))
+      })).sort((a, b) => a.name.localeCompare(b.name)),
+      // Create placeholders for datasets that errored, in alphabetical order
+      catalog.errors.map(error => ({
+        csPublisherId: error.url,
+        name: error.url,
+        url: error.url,
+        issueCount: '⚠️',
+        issueBoardError: 'The Dataset Site, which should contain the GitHub Issues Board URL, could not be retrieved',
+        feeds: [{
+          name: 'Unavailable Dataset',
+          status: '❌',
+          error: error.message,
+        }]
+      })).sort((a, b) => a.name.localeCompare(b.name))
+    )
   }));
 
   let error = undefined;
 
   hbs.registerHelper('licenseSnippet', function (license) {
     /* Add more licenses here when needed  */
-    if (typeof license === 'string' && license.indexOf("https://creativecommons.org/licenses/by/4.0") != -1){
+    if (typeof license === 'string' && license.indexOf("https://creativecommons.org/licenses/by/4.0") != -1) {
       const template = hbs.compile('<a href="{{license}}"><img src="images/by.png" alt="CC BY 4.0" style="height: 15px" /></a>');
-      return template({license : license});
+      return template({ license: license });
     }
   });
 
@@ -111,10 +126,10 @@ router.get('/', async function(req, res, next) {
     statusData: statusData,
     error: error,
     refreshTimestamp,
-   });
+  });
 });
 
-router.get('/about', async function(req, res, next){
+router.get('/about', async function (req, res, next) {
   let error = undefined;
   res.render('about');
 

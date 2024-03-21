@@ -43,7 +43,7 @@
           <table style="width: 100%;">
             {{#each feeds}}
             <tr>
-              <td><a href="{{url}}">{{name}}</a></td>
+              <td>{{#if url}}<a href="{{url}}">{{name}}</a>{{else}}{{name}}{{/if}}</td>
               <td style="width: 40px;"><span title="{{error}}">{{#if status}}{{status}}{{else}}<span title="Checking feed...">⏳</span>{{/if}}</span></td>
             </tr>
             {{/each}}
